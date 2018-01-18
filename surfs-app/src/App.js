@@ -1,36 +1,34 @@
 import React, {Component} from 'react';
-import './App.css'
-import {
-    Jumbotron,
-    Button
-} from 'react-bootstrap'
-
 import axios from 'axios'
 import SearchForm from './components/SearchForm'
+import {
+    PageHeader
+} from 'react-bootstrap'
+import VideoList from './components/VidList'
+import './App.css'
 
-
-
-
-var API_KEY = 'AIzaSyCJsPJPZZDSVADy_asq7yti4bYrNy8FLak'
+var API_KEY = 'AIzaSyCJsPJPZZDSVADy_asq7yti4bYrNy8FLak';
 
 
 
 class App extends Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            vidList : []
+        }
+    }
+
     componentDidMount() {
         let searchTerm = 'surfing';
 
-        axios.get(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&part=snippet&q=${searchTerm}&maxResults=5`)
+        axios.get(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&part=snippet&q=${searchTerm}&maxResults=10`)
             .then(responseData => {
                 let videosList = responseData.data.items;
-                videosList.map( videoJSON => {
-                    let vidDetails = {
-                        url : videoJSON.snippet.thumbnails.high.url,
-                        height : videoJSON.snippet.thumbnails.high.height,
-                        weight : videoJSON.snippet.thumbnails.high.width,
-                    };
-                    console.log(vidDetails)
-                })
+                this.setState({
+                    vidList : videosList
+                });
             }).catch(err => {
                 console.log("Error fetching and parsing data", err)
         })
@@ -41,18 +39,18 @@ class App extends Component {
 
     render() {
         return (
-            <div>
-                <div className="main-header">
-                    <Jumbotron className="jumbotron-custom">
-                        <h1 className="main-title"> Surf's App </h1>
-                    </Jumbotron>
+            <div id="application">
+                <div className="mainHeader">
+                    <PageHeader>
+                        <h1 className="mainTitle"> Surf's App </h1>
+                        <small className="subText">Search for surfing related videos</small>
+                    </PageHeader>
                     <SearchForm/>
                 </div>
 
                 <div className="main-content">
-
+                    <VideoList videoDetails={this.state.vidList}/>
                 </div>
-
             </div>
         )
     }
