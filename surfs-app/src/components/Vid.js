@@ -6,7 +6,7 @@ import React from 'react';
 function Video(props){
     return (
         <li className="vid-wrap">
-            {/*image tag to show thumbnail*/}
+            {/**/}
         </li>
     )
 }
