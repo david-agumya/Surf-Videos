@@ -8,33 +8,46 @@ import {
     HelpBlock
 } from 'react-bootstrap'
 import '../App.css'
+import PropTypes from 'prop-types'
 
 
 export default class SearchForm extends Component {
     constructor(props){
         super(props);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+
         this.state = {
             searchText: ' '
         };
-        this.handleChange = this.handleChange.bind(this);
+
     };
 
     handleChange(e){
         this.setState({
-            value: e.target.value
+            searchText: e.target.value
         });
+    }
+
+    handleSubmit(e){
+        e.preventDefault();
+        let searchTerm = this.state.searchText;
+        this.props.search(searchTerm);
+        this.setState({
+            searchText : ''
+        })
     }
 
 
     render () {
         return(
-            <Form inline>
+            <Form inline onSubmit={this.handleSubmit}>
                 <FormGroup controlId="formInLine">
                     <ControlLabel>Search: </ControlLabel>
                     <FormControl
                         type="text"
                         value={this.state.searchText}
-                        placeholder="Search Surf + search Term"
+                        placeholder="Surf + search Term"
                         name="Search"
                         onChange={this.handleChange}
                         bsStyle="searchInput"
@@ -47,3 +60,7 @@ export default class SearchForm extends Component {
         )
     }
 }
+
+SearchForm.propTypes = {
+    search : PropTypes.func.isRequired,
+};

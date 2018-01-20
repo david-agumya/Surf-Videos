@@ -10,8 +10,10 @@ import {
 class Detail extends Component {
     constructor(props){
         super(props);
+
         let video_Id = this.props.match.params.videoId;
         let video_url = `https://www.youtube.com/watch?v=${video_Id}`;
+
         this.state = {
             videoId : video_Id,
             videoUrl : video_url,

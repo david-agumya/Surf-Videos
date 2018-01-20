@@ -20,25 +20,32 @@ class Home extends Component {
 
     componentDidMount() {
         let searchTerm = 'surfing';
+        this.executeRequest(searchTerm);
+    }
 
-        axios.get(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&type=video&part=snippet&q=${searchTerm}&maxResults=5`)
+    executeRequest = (search) => {
+        axios.get(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&type=video&part=snippet&q=${search}&maxResults=5`)
             .then(responseData => {
                 let videosList = responseData.data.items;
                 this.setState({
                     vidList: videosList,
                 })
             }).catch(err => {
-                console.log("Error fetching and parsing data", err)
+            console.log("Error fetching and parsing data", err)
         });
+    };
 
+    search =  (searchTerm) => {
+        let searchText = `surfing+${searchTerm}`;
+        this.executeRequest(searchText)
 
-    }
+    };
 
     render() {
         return (
                 <div id="application">
                     <div className="mainHeader">
-                        <Header />
+                        <Header search={this.search} />
                     </div>
                     <div className="main-content">
                         <VideoList videoDetails={this.state.vidList}/>

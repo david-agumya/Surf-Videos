@@ -3,6 +3,7 @@ import SearchForm from './SearchForm'
 import {
     PageHeader
 } from 'react-bootstrap'
+import PropTypes from 'prop-types'
 
 function Header(props){
     return (
@@ -11,9 +12,15 @@ function Header(props){
                 Surf's App
                 <small className="subText">Search for surfing related videos</small>
             </PageHeader>
-            <SearchForm/>
+            <SearchForm search={props.search}/>
         </div>
     )
 }
+
+
+Header.propTypes = {
+    search: PropTypes.func.isRequired,
+};
+
 
 export default Header;
