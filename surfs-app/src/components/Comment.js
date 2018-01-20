@@ -1,12 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {
+    ListGroupItem
+} from 'react-bootstrap'
 
 
 function Comment(props) {
     return (
-        <li className="videoComment">
+        <ListGroupItem bsStyle="info">
             {props.commentText}
-        </li>
+        </ListGroupItem>
     )
 }
 

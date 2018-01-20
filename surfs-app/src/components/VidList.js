@@ -2,7 +2,7 @@ import React from 'react';
 import Vid from './Vid';
 import PropTypes from 'prop-types'
 import '../App.css'
-
+import { Grid, Row} from 'react-bootstrap'
 
 function VidList(props) {
 
@@ -20,9 +20,12 @@ function VidList(props) {
         });
 
     return (
-            <ul className="vid-list">
+
+        <Grid>
+            <Row>
                 {videos}
-            </ul>
+            </Row>
+        </Grid>
         )
 }
 

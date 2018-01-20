@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Comments from './Comments'
+import VideoPlayer from './VideoPlayer'
 import '../App.css'
 import {
     PageHeader
@@ -42,12 +43,7 @@ class Detail extends Component {
                     </PageHeader>
                 </div>
                 <div className="video-container">
-                    <iframe className="video-panel"
-                            src={`https://www.youtube.com/embed/${this.state.videoId}`}
-                            controls="0"
-                            frameborder="0"
-                            allow="autoplay; encrypted-media"
-                            allowfullscreen title="Surf-Video"> </iframe>
+                    <VideoPlayer videoId={this.state.videoId}/>
                 </div>
                 <hr/>
                 <h2> Comments </h2>

@@ -1,5 +1,6 @@
 import React from 'react'
 import SearchForm from './SearchForm'
+import '../App.css'
 import {
     PageHeader
 } from 'react-bootstrap'
@@ -9,7 +10,7 @@ function Header(props){
     return (
         <div>
             <PageHeader>
-                Surf's App
+                <span className="mainTitle">Surf's App</span>
                 <small className="subText">Search for surfing related videos</small>
             </PageHeader>
             <SearchForm search={props.search}/>

@@ -1,18 +1,22 @@
 import React from 'react';
 import Comment from './Comment'
 import PropTypes from 'prop-types'
+import {
+    ListGroup
+} from 'react-bootstrap'
 
 function Comments(props) {
 
     let comments = props.CommentList.map( (comment) => {
-        return <Comment commentText={comment.snippet.topLevelComment.snippet.textDisplay}/>
+        return <Comment commentText={comment.snippet.topLevelComment.snippet.textDisplay}
+                        key={comment.snippet.topLevelComment.id}/>
     });
 
     return (
         <div>
-            <ul>
+            <ListGroup>
                 {comments}
-            </ul>
+            </ListGroup>
         </div>
     )
 }

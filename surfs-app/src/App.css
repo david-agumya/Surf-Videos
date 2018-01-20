@@ -28,36 +28,45 @@
 
 .mainHeader {
     border: 1px solid blue;
-    width: 80%;
-    margin: 10px auto;
-    background-color: #95bd95;
+    width: 100%;
+    background-color: #9da2ad;
+    margin-bottom: 30px;
 }
 .mainTitle {
-    margin: 20px auto;
     text-transform: uppercase;
     text-align: center;
+    display: block;
+    color: white;
 }
 
 .subText {
     text-align: center;
     display: block;
+    color: whitesmoke;
 }
 
-.searchButton {
+.searchForm Button {
     margin-left: 10px;
+}
+
+.searchHelp {
+    color : #413fd6;
 }
 
 .searchInput {
     height: 60px;
 }
 
+.searchForm {
+    margin-left: 30px;
+}
+
 .video-container {
     width: 80%;
     border: 1px solid black;
     margin: 0 auto;
-    background-color: #b9c1c8;
-    border-radius: 10%;
-    box-shadow: 15px -10px rgba(139, 135, 138, 0.62);
+    border-radius: 5%;
+    box-shadow: 15px -10px rgba(30, 8, 108, 0.45);
 }
 
 .video-panel {

@@ -2,16 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import '../App.css'
 import {
-    Link
+    Link,
 } from 'react-router-dom'
-
+import {
+    Col,
+} from 'react-bootstrap'
 /**
  * VIDEO COMPONENT TO RENDER A SINGLE VIDEO JSON
  */
 function Video(props){
 
     return (
-        <div className="galleryItem">
+        <Col xs={12} md={6}>
             <Link to={`/videoDetail/${props.videoId}`}>
             <img src={props.url}
                  alt={props.title}
@@ -20,7 +22,7 @@ function Video(props){
             <h3> {props.title} </h3>
             <h4> Description </h4>
             <p> {props.description}</p>
-        </div>
+        </Col>
     )
 }
 

@@ -18,7 +18,7 @@ export default class SearchForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         this.state = {
-            searchText: ' '
+            searchText: ''
         };
 
     };
@@ -41,7 +41,7 @@ export default class SearchForm extends Component {
 
     render () {
         return(
-            <Form inline onSubmit={this.handleSubmit}>
+            <Form inline onSubmit={this.handleSubmit} className="searchForm">
                 <FormGroup controlId="formInLine">
                     <ControlLabel>Search: </ControlLabel>
                     <FormControl
@@ -52,9 +52,9 @@ export default class SearchForm extends Component {
                         onChange={this.handleChange}
                         bsStyle="searchInput"
                     />
-                    <Button bsStyle="success"> Search </Button>
+                    <Button bsStyle="success" className="SearchButton"> Search </Button>
                     <FormControl.Feedback />
-                    <HelpBlock>Please enter a category of surf videos you want to view.</HelpBlock>
+                    <HelpBlock className="searchHelp">Please enter a category of surf videos you want to view.</HelpBlock>
                 </FormGroup>
             </Form>
         )
