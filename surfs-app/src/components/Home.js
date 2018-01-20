@@ -5,7 +5,6 @@ import VideoList from './VidList'
 import '../App.css'
 
 
-
 const API_KEY = 'AIzaSyCJsPJPZZDSVADy_asq7yti4bYrNy8FLak';
 
 
@@ -16,7 +15,7 @@ class Home extends Component {
         super(props);
         this.state = {
             vidList : []
-        }
+        };
     }
 
     componentDidMount() {
@@ -26,15 +25,14 @@ class Home extends Component {
             .then(responseData => {
                 let videosList = responseData.data.items;
                 this.setState({
-                    vidList : videosList
-                });
+                    vidList: videosList,
+                })
             }).catch(err => {
                 console.log("Error fetching and parsing data", err)
-        })
+        });
 
 
     }
-
 
     render() {
         return (

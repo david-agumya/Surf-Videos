@@ -51,6 +51,21 @@
     height: 60px;
 }
 
+.video-container {
+    width: 80%;
+    border: 1px solid black;
+    margin: 0 auto;
+    background-color: #b9c1c8;
+    border-radius: 10%;
+    box-shadow: 15px -10px rgba(139, 135, 138, 0.62);
+}
+
+.video-panel {
+    width: 80%;
+    height: 400px;
+    margin: 10px 10%;
+}
+
 /*================================================================
 BREAKPOINTS
 =================================================================*/

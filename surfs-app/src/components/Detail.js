@@ -1,48 +1,56 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import Comments from './Comments'
+import '../App.css'
+import {
+    PageHeader
+} from 'react-bootstrap'
 
 
 class Detail extends Component {
     constructor(props){
         super(props);
+        let video_Id = this.props.match.params.videoId;
+        let video_url = `https://www.youtube.com/watch?v=${video_Id}`;
         this.state = {
-            videoId : this.props.match.params.videoId,
-            videoUrl : `https://www.youtube.com/watch?v=${videoId}`,
+            videoId : video_Id,
+            videoUrl : video_url,
             comments : [],
         }
     }
 
     componentDidMount(){
-        // axios.get(`https://www.googleapis.com/youtube/v3/commentThreads?key=&textFormat=plainText&part=snippet&videoId=kffacxfA7G4&maxResults=50`)
-        //     .then(responseData => {
-        //         let videosList = responseData.data.items;
-        //         this.setState({
-        //             vidList : videosList
-        //         });
-        //     }).catch(err => {
-        //     console.log("Error fetching and parsing data", err)
-        // })
+        axios.get(`https://www.googleapis.com/youtube/v3/commentThreads?key=AIzaSyCJsPJPZZDSVADy_asq7yti4bYrNy8FLak&textFormat=plainText&part=snippet&videoId=${this.state.videoId}&maxResults=50`)
+            .then(responseData => {
+                this.setState({
+                    comments : responseData.data.items
+                })
+            }).catch(err => {
+            console.log("Error fetching and parsing data", err)
+        })
     }
 
     render() {
         return (
             <div className="detail-container">
+
                 <div className="detail-header">
-                    <h1> Video Detail Page </h1>
+                    <PageHeader>
+                        Video Detail
+                    </PageHeader>
                 </div>
-
                 <div className="video-container">
-                    <!-- Simple video example -->
-                    <video src={videoUrl}
-                           autoplay
-                           poster="posterimage.jpg">
-                        Sorry, your browser doesn't support embedded videos,
-                        but don't worry, you can <a href={videoUrl}>download it</a>
-                        and watch it with your favorite video player!
-                    </video>
+                    <iframe className="video-panel"
+                            src={`https://www.youtube.com/embed/${this.state.videoId}`}
+                            controls="0"
+                            frameborder="0"
+                            allow="autoplay; encrypted-media"
+                            allowfullscreen title="Surf-Video"> </iframe>
                 </div>
-
-                <p>{`Video Details of ${videoId}`}</p>
+                <hr/>
+                <h2> Comments </h2>
+                <hr/>
+                <Comments CommentList={this.state.comments}/>
             </div>
         )
     }

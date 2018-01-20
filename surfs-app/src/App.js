@@ -15,13 +15,6 @@ import PageDetail from './components/Detail.js'
 
 class App extends Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
-            vidList : []
-        }
-    }
-
     render() {
         return (
             <BrowserRouter>

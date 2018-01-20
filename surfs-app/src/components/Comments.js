@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Comment from './Comment'
-
+import PropTypes from 'prop-types'
 
 function Comments(props) {
 
     let comments = props.CommentList.map( (comment) => {
-        return <Comment commentText={comment}/>
+        return <Comment commentText={comment.snippet.topLevelComment.snippet.textDisplay}/>
     });
 
     return (
