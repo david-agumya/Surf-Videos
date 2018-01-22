@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import NotFound from './components/NotFound'
 import './App.css'
 import {
     BrowserRouter,
@@ -21,6 +22,7 @@ class App extends Component {
                 <Switch>
                    <Route exact path="/" component={Home} />
                    <Route path="/videoDetail/:videoId" component={PageDetail} />
+                    <Route component={NotFound} />
                 </Switch>
             </BrowserRouter>
         )

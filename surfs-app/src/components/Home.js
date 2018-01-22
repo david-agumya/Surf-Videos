@@ -19,7 +19,7 @@ class Home extends Component {
             vidList : [],
             searchTerm : 'surfing',
             nextPageToken : '',
-            previousToken : '',
+            previousToken : null,
         };
     }
 
@@ -29,11 +29,13 @@ class Home extends Component {
 
     executeRequest = (search) => {
         this.setState({searchTerm : search});
-        axios.get(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&type=video&part=snippet&q=${this.state.searchTerm}&maxResults=15`)
+        axios.get(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&type=video&part=snippet&q=${this.state.searchTerm}&maxResults=16`)
             .then(responseData => {
+
                 let videosList = responseData.data.items;
                 let nextPgToken = responseData.data.nextPageToken;
                 let prevPageToken = responseData.data.prevPageToken;
+
                 this.setState({
                     vidList: videosList,
                     nextPageToken: nextPgToken,
@@ -50,12 +52,18 @@ class Home extends Component {
                 let videosList = responseData.data.items;
                 let nextPgToken = responseData.data.nextPageToken;
                 let prevPageToken = responseData.data.prevPageToken;
-                this.setState({
-                    vidList: videosList,
-                    nextPageToken: nextPgToken,
-                    previousToken: prevPageToken,
+                if (videosList.length > 0 ){
+                    this.setState({
+                        vidList: videosList,
+                        nextPageToken: nextPgToken,
+                        previousToken: prevPageToken,
 
-                });
+                    });
+                }else{
+                    // show the user that the search term does not provide any results
+
+                }
+
 
             }).catch(err => {
             console.log("Error fetching and parsing data", err)
@@ -87,7 +95,7 @@ class Home extends Component {
                     <div className="main-content">
                         <VideoList videoDetails={this.state.vidList}/>
                     </div>
-                    <div>{this.state.previousToken !== '' &&
+                    <div>{this.state.previousToken  &&
                         <Button bsStyle="primary"
                                 className="prev-button"
                                 onClick={this.renderPrevious}> {"<<"} Previous Page</Button>

@@ -84,6 +84,21 @@
     float: right;
 }
 
+.not-found {
+
+}
+
+.not-found h2, p {
+    text-align: center;
+}
+
+.not-found-img {
+    width : 60%;
+    height : 60%;
+    margin: 0 auto;
+    display: block;
+}
+
 /*================================================================
 BREAKPOINTS
 =================================================================*/

@@ -26,6 +26,7 @@ function VidList(props) {
                 {videos}
             </Row>
         </Grid>
+
         )
 }
 
