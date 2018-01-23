@@ -13,7 +13,7 @@ import {
 function Video(props){
 
     return (
-        <Col xs={12} md={6} lg={5}>
+        <Col xs={12} md={5} lg={5} mdPush={1}>
             <Link to={`/videoDetail/${props.videoId}`}>
             <img src={props.url}
                  alt={props.title}

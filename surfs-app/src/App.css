@@ -28,9 +28,11 @@
 
 .mainHeader {
     border: 1px solid blue;
-    width: 100%;
+    width: 90%;
+    align-content: center;
     background-color: #9da2ad;
-    margin-bottom: 30px;
+    /*margin-bottom: 30px;*/
+    margin: 30px auto;
 }
 .mainTitle {
     text-transform: uppercase;
@@ -99,29 +101,55 @@
     display: block;
 }
 
+.container {
+    align-content: space-around;
+}
+
+.comment-container {
+    width : 50%;
+    display : inline-block;
+    float: left;
+}
+.other-videos-container {
+    width : 50%;
+    display : inline-block;
+}
+
+.other-videos-container {
+    
+}
+
+.video-details-container {
+    width: 70%;
+    margin: 0 auto;
+}
 /*================================================================
 BREAKPOINTS
 =================================================================*/
 /* MEDIA QUERIES*/
 @media only screen and (max-width : 940px),
 only screen and (max-device-width : 940px){
-    .galleryItem {width: 21%;}
+
 }
 
 @media only screen and (max-width : 720px),
 only screen and (max-device-width : 720px){
-    .galleryItem {width: 45%;}
+    .comment-container {
+        width : 100%;
+        display : block;
+    }
+    .other-videos-container {
+        width : 100%;
+        display : block;
+    }
 }
 
 @media only screen and (max-width : 530px),
 only screen and (max-device-width : 530px){
-    .galleryItem {width: 46%;}
+
 }
 
 @media only screen and (max-width : 320px),
 only screen and (max-device-width : 320px){
-    .galleryItem {width: 96%;}
-    .galleryItem img {width: 96%;}
-    .galleryItem h3 {font-size: 18px;}
-    .galleryItem p {font-size: 18px;}
+
 }

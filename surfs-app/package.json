@@ -6,6 +6,7 @@
     "axios": "^0.17.1",
     "bootstrap": "^3.3.7",
     "prop-types": "^15.6.0",
+    "q": "^1.5.1",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.0",
     "react-dom": "^16.2.0",

@@ -29,6 +29,7 @@ class Home extends Component {
 
     executeRequest = (search) => {
         this.setState({searchTerm : search});
+
         axios.get(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&type=video&part=snippet&q=${this.state.searchTerm}&maxResults=16`)
             .then(responseData => {
 
@@ -59,11 +60,7 @@ class Home extends Component {
                         previousToken: prevPageToken,
 
                     });
-                }else{
-                    // show the user that the search term does not provide any results
-
                 }
-
 
             }).catch(err => {
             console.log("Error fetching and parsing data", err)

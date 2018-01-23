@@ -4,8 +4,11 @@ import Comments from './Comments'
 import VideoPlayer from './VideoPlayer'
 import '../App.css'
 import {
-    PageHeader
+    PageHeader,
+    Panel
 } from 'react-bootstrap'
+import VideoPlayers from './VIdeoPlayers'
+
 
 
 class Detail extends Component {
@@ -19,21 +22,66 @@ class Detail extends Component {
             videoId : video_Id,
             videoUrl : video_url,
             comments : [],
+            title : '',
+            description : '',
+            author : '',
+            channelId : '',
+            otherVids : [],
         }
     }
 
     componentDidMount(){
+        this.getComments();
+
+    }
+
+    getComments = () => {
         axios.get(`https://www.googleapis.com/youtube/v3/commentThreads?key=AIzaSyCJsPJPZZDSVADy_asq7yti4bYrNy8FLak&textFormat=plainText&part=snippet&videoId=${this.state.videoId}&maxResults=50`)
             .then(responseData => {
                 this.setState({
-                    comments : responseData.data.items
-                })
+                    comments: responseData.data.items
+                });
+                this.getVideoInfo()
             }).catch(err => {
-            console.log("Error fetching and parsing data", err)
-        })
-    }
+            console.log(err)
+        });
+    };
 
-    render() {
+
+    getVideoInfo = () => {
+        axios.get(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${this.state.videoId}&key=AIzaSyCJsPJPZZDSVADy_asq7yti4bYrNy8FLak`)
+            .then(responseData => {
+                let video_title = responseData.data.items[0].snippet.title;
+                let video_desc = responseData.data.items[0].snippet.description;
+                let video_author = responseData.data.items[0].snippet.channelTitle;
+                let video_channel_id = responseData.data.items[0].snippet.channelId;
+                this.setState({
+                    title: video_title ,
+                    description: video_desc,
+                    author: video_author,
+                    channelId: video_channel_id,
+
+                })
+                this.getOtherVideosByAuthor()
+            })
+            .catch(err => {
+                console.log('Error making request to get video information', err)
+            })
+    };
+
+    getOtherVideosByAuthor = () => {
+       axios.get(`https://www.googleapis.com/youtube/v3/search?key=AIzaSyCJsPJPZZDSVADy_asq7yti4bYrNy8FLak&channelId=${this.state.channelId}&part=snippet&order=date&maxResults=5`)
+           .then(responseData => {
+                let other_vids = responseData.data.items;
+                this.setState({
+                    otherVids: other_vids,
+                })
+           }).catch(err => {
+               console.log('error retrieving other videos by the same channel', err)
+       })
+    };
+
+    render () {
         return (
             <div className="detail-container">
 
@@ -46,9 +94,28 @@ class Detail extends Component {
                     <VideoPlayer videoId={this.state.videoId}/>
                 </div>
                 <hr/>
-                <h2> Comments </h2>
-                <hr/>
-                <Comments CommentList={this.state.comments}/>
+                <div className="video-details-container">
+                    <Panel>
+                        <Panel.Heading>
+                            <Panel.Title componentClass="h3">
+                                {this.state.title}
+                            </Panel.Title>
+                        </Panel.Heading>
+                        <Panel.Body>{this.state.description}</Panel.Body>
+                        <Panel.Footer>Creator : {this.state.author}</Panel.Footer>
+                    </Panel>
+                </div>
+                <div className="comment-container">
+                    <h2> Comments </h2>
+                    <hr/>
+                    <Comments CommentList={this.state.comments}/>
+                </div>
+                <div className="other-videos-container">
+                    <h2> Recommended Clips </h2>
+                    <hr/>
+                    <VideoPlayers otherVideos={this.state.otherVids}/>
+                </div>
+
             </div>
         )
     }

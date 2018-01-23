@@ -14,7 +14,7 @@ function VideoPlayer(props){
 }
 
 
-VideoPlayer.PropTypes = {
+VideoPlayer.propTypes = {
     videoId : PropTypes.string.isRequired,
 };
 
