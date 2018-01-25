@@ -5,7 +5,8 @@ import VideoPlayer from './VideoPlayer'
 import '../App.css'
 import {
     PageHeader,
-    Panel
+    Panel,
+    Button
 } from 'react-bootstrap'
 import VideoPlayers from './VIdeoPlayers'
 
@@ -22,6 +23,8 @@ class Detail extends Component {
             videoId : video_Id,
             videoUrl : video_url,
             comments : [],
+            nextCommentsTkn: null,
+            prevCommentsTkn: null,
             title : '',
             description : '',
             author : '',
@@ -31,15 +34,31 @@ class Detail extends Component {
     }
 
     componentDidMount(){
-        this.getComments();
+        this.getComments()
 
     }
 
     getComments = () => {
-        axios.get(`https://www.googleapis.com/youtube/v3/commentThreads?key=AIzaSyCJsPJPZZDSVADy_asq7yti4bYrNy8FLak&textFormat=plainText&part=snippet&videoId=${this.state.videoId}&maxResults=50`)
+        axios.get(`https://www.googleapis.com/youtube/v3/commentThreads?key=AIzaSyCJsPJPZZDSVADy_asq7yti4bYrNy8FLak&textFormat=plainText&part=snippet&videoId=${this.state.videoId}&maxResults=15`)
             .then(responseData => {
+                let nextkn = responseData.data.nextPageToken
                 this.setState({
-                    comments: responseData.data.items
+                    comments: responseData.data.items,
+                    nextCommentsTkn: nextkn,
+                });
+                this.getVideoInfo()
+            }).catch(err => {
+            console.log(err)
+        });
+    };
+
+    getNextComments = () => {
+        axios.get(`https://www.googleapis.com/youtube/v3/commentThreads?key=AIzaSyCJsPJPZZDSVADy_asq7yti4bYrNy8FLak&textFormat=plainText&part=snippet&videoId=${this.state.videoId}&maxResults=15&pageToken=${this.state.nextCommentsTkn}`)
+            .then(responseData => {
+                let nextkn = responseData.data.nextPageToken;
+                this.setState({
+                    comments: responseData.data.items,
+                    nextCommentsTkn: nextkn,
                 });
                 this.getVideoInfo()
             }).catch(err => {
@@ -61,7 +80,7 @@ class Detail extends Component {
                     author: video_author,
                     channelId: video_channel_id,
 
-                })
+                });
                 this.getOtherVideosByAuthor()
             })
             .catch(err => {
@@ -71,6 +90,7 @@ class Detail extends Component {
 
     getOtherVideosByAuthor = () => {
        axios.get(`https://www.googleapis.com/youtube/v3/search?key=AIzaSyCJsPJPZZDSVADy_asq7yti4bYrNy8FLak&channelId=${this.state.channelId}&part=snippet&order=date&maxResults=5`)
+       // TODO : Need to use pagination to get the nec
            .then(responseData => {
                 let other_vids = responseData.data.items;
                 this.setState({
@@ -109,6 +129,13 @@ class Detail extends Component {
                     <h2> Comments </h2>
                     <hr/>
                     <Comments CommentList={this.state.comments}/>
+                    <div className="more-comments">
+                        {this.state.nextCommentsTkn !== null && this.state.nextCommentsTkn !== undefined &&
+                            <Button bsStyle="primary"
+                                onClick={this.getNextComments()}> Load More ... </Button>
+                        }
+
+                    </div>
                 </div>
                 <div className="other-videos-container">
                     <h2> Recommended Clips </h2>
