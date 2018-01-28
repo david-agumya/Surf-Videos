@@ -4,20 +4,23 @@ const config = {
 	entry: __dirname + '/js/index.jsx',
 	output: {
 		path: __dirname + '/dist',
-		filename: 'bundle.js',
+		filename: 'bundle.js'
 	},
 	resolve: {
-		extensions: ['.js', '.jsx', '.css' ]
+		extensions: ['.js', '.jsx', '.css']
 	},
 	module: {
-		rules: [ 
+		rules: [
 			{
-			  "test": /\.jsx?/,
+			  "test": /\.jsx?$/,
 			  "exclude": /node_modules/,
 			  "use": 'babel-loader'
-			}
+			},
+            { test: /\.css$/, use: 'css-loader' }
+
 		]
-		}
+	}
+
 };
 
 module.exports = config;
