@@ -1,1 +1,3 @@
 /fullstack_app/static/node_modules/
+/server/server_venv
+/.DS_Store
