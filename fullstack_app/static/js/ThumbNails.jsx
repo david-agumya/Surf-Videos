@@ -9,22 +9,20 @@ function ThumbNails(props) {
 
     let videos = list_videos_details.map(video => {
         return (
-            <Thumbnail url={video.snippet.thumbnails.high.url}
-                       description={video.snippet.description}
-                       title={video.snippet.title}
-                       videoId={video.id.videoId}
-                       key={video.id.videoId}
+            <Thumbnail url={video.thumbnails.url}
+                       description={video.description}
+                       title={video.title}
+                       videoId={video.videoId}
+                       key={video.videoId}
             />
         )
     });
 
     return (
 
-        <Grid className="container">
-            <Row>
+        <div className="container">
                 {videos}
-            </Row>
-        </Grid>
+        </div>
 
     )
 }

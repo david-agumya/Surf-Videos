@@ -7,11 +7,27 @@ import {
 } from 'react-bootstrap'
 
 import SearchForm from './SearchForm.jsx'
+import axios from 'axios'
 import ThumbNails from './ThumbNails.jsx'
 
 
 export default class App extends React.Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            vidInfo : []
+        }
+    }
+
+    componentDidMount(){
+        axios.get('/getVideos')
+            .then(responseData => {
+                this.setState({
+                    vidInfo : responseData.data
+                })
+            })
+    }
 
     render() {
         let containerStyle = {
@@ -48,9 +64,7 @@ export default class App extends React.Component {
                 </div>
 
                 <div className="video-thumbnails">
-                    {/*Add surf video thumbnails here*/}
-                    {/*TODO : Implement logic such that componentDidMount makes a request to my
-                    TODO: - flast backend and gets initial videos to render to the home page. */}
+                    <ThumbNails videoDetails={this.state.vidInfo}/>
 
                 </div>
             </div>
