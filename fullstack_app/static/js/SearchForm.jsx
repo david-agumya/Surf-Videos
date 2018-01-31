@@ -8,6 +8,7 @@ import {
     HelpBlock
 } from 'react-bootstrap'
 // TODO : Add proptypes for function to handle search button submit event
+import PropTypes from 'prop-types';
 
 
 
@@ -60,3 +61,7 @@ export default class SearchForm extends Component {
         )
     }
 }
+
+SearchForm.propTypes = {
+    search: PropTypes.func.isRequired,
+};
