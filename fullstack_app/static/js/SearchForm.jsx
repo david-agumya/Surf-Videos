@@ -53,7 +53,10 @@ export default class SearchForm extends Component {
                         onChange={this.handleChange}
                         bsStyle="searchInput"
                     />
-                    <Button bsStyle="success" className="SearchButton"> Search </Button>
+                    <Button bsStyle="success"
+                            className="SearchButton"
+                            type="submit"
+                    > Search </Button>
                     <FormControl.Feedback />
                     <HelpBlock className="searchHelp">Please enter a category of surf videos you want to view.</HelpBlock>
                 </FormGroup>

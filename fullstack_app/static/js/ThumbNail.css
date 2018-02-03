@@ -1,0 +1,21 @@
+.thumbnailStyle {
+    display: inline-block;
+    margin: 6% 4%;
+    border: 1px solid black;
+    width: 40%;
+    box-sizing: border-box;
+    float: left;
+}
+
+.imgStyle {
+    width: 100%;
+}
+
+.textStyle {
+    margin: 1%;
+}
+
+.titleTextStyle {
+    margin: 1%;
+    text-decoration: underline;
+}

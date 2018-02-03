@@ -22,7 +22,7 @@ def add_token_to_end_point_helper(nextPgTkn):
                          'type=video&' \
                          'part=snippet&' \
                          'q={}&' \
-                         'maxResults=9&' \
+                         'maxResults=10&' \
                          'pageToken={}'.format(apiKey, 'surfing', nextPgTkn)
     return next_page_end_point
 
@@ -33,10 +33,9 @@ def add_searchTerm_to_end_point_helper(searchTerm='surfing'):
                        'type=video&' \
                        'part=snippet&' \
                        'q={}&' \
-                       'maxResults=9'.format(apiKey, searchTerm)
+                       'maxResults=10'.format(apiKey, searchTerm)
 
     return youtube_endPoint
-
 
 def get_videos(source):
     videos_sum = []
@@ -47,7 +46,7 @@ def get_videos(source):
     data = json.loads(r.text)
     global NEXT_PG_TKN
     global PREV_PG_TKN
-    if data['nextPageToken']:
+    if 'nextPageToken' in data:
         NEXT_PG_TKN = data['nextPageToken']
 
     videos_list = data['items']

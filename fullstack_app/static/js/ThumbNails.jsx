@@ -1,8 +1,7 @@
 import React from 'react';
 import Thumbnail from './ThumbNail.jsx';
 import PropTypes from 'prop-types'
-import {Grid, Row} from 'react-bootstrap'
-
+import styles from './ThumbNails.css'
 function ThumbNails(props) {
 
     let list_videos_details = props.videoDetails;
@@ -20,7 +19,7 @@ function ThumbNails(props) {
 
     return (
 
-        <div className="container">
+        <div className={styles.thumbnail_container}>
                 {videos}
         </div>
 

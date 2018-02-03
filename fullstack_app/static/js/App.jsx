@@ -11,6 +11,8 @@ import SearchForm from './SearchForm.jsx'
 import axios from 'axios'
 import ThumbNails from './ThumbNails.jsx'
 
+import styles from './App.css'
+
 /*
  Main component responsible for rendering the home page of surfing videos
  */
@@ -21,6 +23,7 @@ export default class App extends React.Component {
         this.getNextVideos = this.getNextVideos.bind(this);
         this.getPreviousVideos = this.getPreviousVideos.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.formatSearch = this.formatSearch.bind(this);
         this.state = {
             vidInfo: [],
             prePageCounter: 1,
@@ -55,15 +58,15 @@ export default class App extends React.Component {
                     prePageCounter: this.state.prePageCounter + 1,
                 })
             }).catch(err => {
-                console.log("/getMoreVideos : ", err);
-                alert('Unable to get next videos')
+            console.log("/getMoreVideos : ", err);
+            alert('Unable to get next videos')
         });
     };
 
     /*
-    Event handler for when the user wants to the previous page of videos
-    Makes a call to backend route and changes list of videos in state
-    */
+     Event handler for when the user wants to the previous page of videos
+     Makes a call to backend route and changes list of videos in state
+     */
     getPreviousVideos() {
         axios.get('/getPreviousVideos')
             .then(responseData => {
@@ -78,84 +81,48 @@ export default class App extends React.Component {
     };
 
     /*
+    Helper function with promise to help me format the search term entered by user
+    needed a promise to make sure route search term is not undefined before making the
+    request
+     */
+    formatSearch(term) {
+        return new Promise((resolve, reject) => {
+            let route = "search/" + term;
+            resolve(route)
+        })
+    };
+
+    /*
      Event handler for when the user wants to for surf videos with a specific term
      Makes a call to backend route and changes list of videos in statenpm r
      */
     handleSearch(searchTerm) {
-        let route = "search/"+searchTerm;
-        console.log(route); // follow up on bug when this statement is removed search function does not work
-        axios.get(route)
-            .then(responseData => {
-                this.setState({
-                    vidInfo: responseData.data,
-                    prePageCounter: 0,
+        this.formatSearch(searchTerm)
+            .then((route) => {
+                axios.get(route)
+                    .then(responseData => {
+                        this.setState({
+                            vidInfo: responseData.data,
+                            prePageCounter: 0,
+                        })
+                    }).catch(err => {
+                    console.log("/search : ", err);
+                    alert('Unable to execute search')
                 })
-            }).catch(err => {
-            console.log("/search : ", err);
-            alert('Unable to execute search')
-        })
+            })
     }
 
 
     render() {
-        let containerStyle = {
-            width: '90%',
-            margin: '0 auto'
-        };
-        let headerStyle = {
-            marginLeft: '30px',
-            marginRight: '30px',
-            paddingLeft: '20px',
-
-        };
-        let headingStyle = {
-            textAlign: 'center',
-        };
-        let subHeadingTextStyle = {
-            display: 'block',
-            padding: '10px',
-
-        };
-        let nextButtonStyle = {
-            width: '100%',
-        };
-        let prevButtonStyle = {
-            width: '100%',
-        };
-        let pageNumStyle = {
-            width: '100%',
-            textAlign: 'center',
-            display: 'inline-block',
-        };
-        let prevButtonDivStyle = {
-            display: 'inline-block',
-            float: 'left',
-            boxSizing: 'border-box',
-            width: '10%'
-        };
-        let nextButtonDivStyle = {
-            display: 'inline-block',
-            float: 'right',
-            boxSizing: 'border-box',
-            width: '10%'
-        };
-        let pageNumDivStyle = {
-            display: 'inline-block',
-            float: 'left',
-            boxSizing: 'border-box',
-            width: '80%'
-        };
-
         return (
-            <div style={containerStyle}>
-                <div style={headerStyle}>
-                    <PageHeader style={headingStyle}>
+            <div className={styles.div_container}>
+                <div className={styles.DIVheader}>
+                    <PageHeader className={styles.DIVheading}>
                         Surf's App
-                        <small style={subHeadingTextStyle}> A youtube surf video utility.</small>
+                        <small className={styles.subHeading}> A youtube surf video utility.</small>
                     </PageHeader>
                     <div className="search-form">
-                        {/*Add search form here*/}
-                        <SearchForm  search={this.handleSearch}/>
+                        <SearchForm search={this.handleSearch}/>
                     </div>
                     <hr/>
                 </div>
@@ -164,32 +131,30 @@ export default class App extends React.Component {
                     <ThumbNails videoDetails={this.state.vidInfo}/>
                 </div>
                 <div>
-                    <div style={prevButtonDivStyle}>
+                    <div className={styles.prevButtonDiv}>
                         {this.state.prePageCounter > 1 &&
                         <Button
                             bsStyle="primary"
-                            style={prevButtonStyle}
                             onClick={this.getPreviousVideos}
                         >Previous
                         </Button>
                         }
                     </div>
-                    <div style={pageNumDivStyle}>
-                        <p
-                            style={pageNumStyle}
-                        >
+
+                    <div className={styles.pageNumberDiv}>
+                        <p className={styles.pageNumber}>
                             {this.state.prePageCounter}
                         </p>
                     </div>
-                    <div style={nextButtonDivStyle}>
+
+                    <div className={styles.nextButtonDiv}>
                         <Button
                             bsStyle="primary"
-                            style={nextButtonStyle}
-                            onClick={this.getNextVideos}
-                        >
+                            onClick={this.getNextVideos}>
                             Next
                         </Button>
                     </div>
+
                 </div>
             </div>
         )
