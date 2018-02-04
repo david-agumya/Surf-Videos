@@ -65,30 +65,29 @@ def get_videos(source):
 
     return videos_sum
 
-# @app.route('/videoDetail')
-# @app.route('/')
-# def index():
-#     return render_template('index.html')
-#
-# @app.route('/videoDetail/<videoId>')
-# def videos(videoId):
-#     return render_template("index.html")
 
-
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def index(path):
+@app.route('/')
+def entry_point():
+    '''
+    Main Entry point for application that server the index html page
+    that is embeded with React js code that renders the home component.
+    '''
     return render_template('index.html')
 
 
-# @app.route('/videoDetail')
-# def details():
-#     return render_template(".html")
-
-
+@app.route('/detail/<videoId>')
+def details(videoId):
+    '''
+    Responsible for re routing path back to React to be handled
+    by react router
+    '''
+    return render_template('index.html')
 
 @app.route("/api/v0/getVideos")
 def getVideos():
+    '''
+    Get the intial videos that will be rendered in the react home page component
+    '''
     videos = get_videos(add_searchTerm_to_end_point_helper(searchTerm='surfing'))
     resp = jsonify(videos)
     resp.status_code = 200
@@ -97,6 +96,10 @@ def getVideos():
 
 @app.route("/api/v0/getMoreVideos")
 def getMoreVideos():
+    '''
+    When client wants to render more videos beyond the intially rendered
+    videos
+    '''
     global NEXT_PG_TKN
     next_page_endPoint = add_token_to_end_point_helper(NEXT_PG_TKN)
     videos = get_videos(next_page_endPoint)
@@ -107,6 +110,10 @@ def getMoreVideos():
 
 @app.route("/api/v0/getPreviousVideos")
 def getPreviousVideos():
+    '''
+    When client wants to render the previous set of video clips on the home page
+    for infinite pagination implementation
+    '''
     global PREV_PG_TKN
     print(PREV_PG_TKN)
     prev_page_endPoint = add_token_to_end_point_helper(PREV_PG_TKN)
@@ -118,6 +125,9 @@ def getPreviousVideos():
 
 @app.route("/api/v0/search/<searchTerm>")
 def search(searchTerm):
+    '''
+    Handle client search request, in the format surf+searchTerm
+    '''
     new_term = 'surfing+{}'.format(searchTerm)
     global NEXT_PG_TKN
     global PREV_PG_TKN
@@ -132,7 +142,3 @@ def search(searchTerm):
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-
-
