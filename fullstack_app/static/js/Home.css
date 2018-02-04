@@ -1,0 +1,51 @@
+.div_container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.DIVheader {
+    margin-left: 30px;
+    margin-right: 30px;
+    padding-left: 20px;
+}
+
+.DIVheading {
+    text-align: center;
+}
+
+.subHeading {
+    display: block;
+    padding: 10px;
+}
+
+.nextButton, .prevButton {
+    width: 100%;
+}
+
+.pageNumber {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    box-sizing:  border-box;
+}
+
+.prevButtonDiv {
+    display: inline-block;
+    float: left;
+    box-sizing:  border-box;
+    width: 10%;
+}
+
+.nextButtonDiv {
+    display: inline-block;
+    float: right;
+    box-sizing: border-box;
+    width: 10%;
+}
+
+.pageNumberDiv {
+    display: inline-block;
+    float: left;
+    box-sizing: border-box;
+    width: 80%;
+}

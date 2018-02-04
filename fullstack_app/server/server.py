@@ -1,5 +1,5 @@
 # server.py
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, make_response
 from flask_cors import CORS
 from flask import jsonify
 import requests
@@ -25,6 +25,7 @@ def add_token_to_end_point_helper(nextPgTkn):
                          'maxResults=10&' \
                          'pageToken={}'.format(apiKey, 'surfing', nextPgTkn)
     return next_page_end_point
+
 
 def add_searchTerm_to_end_point_helper(searchTerm='surfing'):
 
@@ -64,13 +65,29 @@ def get_videos(source):
 
     return videos_sum
 
+# @app.route('/videoDetail')
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
+#
+# @app.route('/videoDetail/<videoId>')
+# def videos(videoId):
+#     return render_template("index.html")
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
+    return render_template('index.html')
 
 
-@app.route("/getVideos")
+# @app.route('/videoDetail')
+# def details():
+#     return render_template(".html")
+
+
+
+@app.route("/api/v0/getVideos")
 def getVideos():
     videos = get_videos(add_searchTerm_to_end_point_helper(searchTerm='surfing'))
     resp = jsonify(videos)
@@ -78,7 +95,7 @@ def getVideos():
     return resp
 
 
-@app.route("/getMoreVideos")
+@app.route("/api/v0/getMoreVideos")
 def getMoreVideos():
     global NEXT_PG_TKN
     next_page_endPoint = add_token_to_end_point_helper(NEXT_PG_TKN)
@@ -88,7 +105,7 @@ def getMoreVideos():
     return resp
 
 
-@app.route("/getPreviousVideos")
+@app.route("/api/v0/getPreviousVideos")
 def getPreviousVideos():
     global PREV_PG_TKN
     print(PREV_PG_TKN)
@@ -99,7 +116,7 @@ def getPreviousVideos():
     return resp
 
 
-@app.route("/search/<searchTerm>")
+@app.route("/api/v0/search/<searchTerm>")
 def search(searchTerm):
     new_term = 'surfing+{}'.format(searchTerm)
     global NEXT_PG_TKN
