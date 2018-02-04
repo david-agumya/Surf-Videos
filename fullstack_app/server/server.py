@@ -1,7 +1,8 @@
 # server.py
-from flask import Flask, render_template, redirect, make_response
+from flask import Flask, render_template, redirect, Response
 from flask_cors import CORS
 from flask import jsonify
+from flask_restplus import abort
 import requests
 from flask import Response
 from flask import request
@@ -12,8 +13,10 @@ CORS(app)
 
 apiKey = 'AIzaSyCJsPJPZZDSVADy_asq7yti4bYrNy8FLak'
 
-NEXT_PG_TKN = ''
-PREV_PG_TKN = ''
+NEXT_PG_TKN = '' # global variable tracking next videos token
+PREV_PG_TKN = '' # global variable tracking prev videos token
+NEXT_CM_TKN = '' # global variable tracking next comments token
+NEXT_VD_ATH = '' # global variable tracking next videos by author token
 
 
 def add_token_to_end_point_helper(nextPgTkn):
@@ -138,6 +141,88 @@ def search(searchTerm):
     resp.status_code = 200
     return resp
 
+
+@app.route('/api/v0/getVideoComments/<videoId>')
+def get_video_comments(videoId):
+    '''
+    Get comments for a video
+    '''
+    url = "https://www.googleapis.com/youtube/v3/commentThreads?key={}" \
+          "&textFormat=plainText&part=snippet&videoId={}&maxResults=15".format(apiKey, videoId)
+    r = requests.get(url)
+    data = json.loads(r.text)
+    global NEXT_CM_TKN # to be used later to get more comments
+    NEXT_CM_TKN = data['nextPageToken']
+    comments = data['items']
+    comment_profiles = []
+
+    for comment in comments:
+        comment_profile = {
+            'author': comment['snippet']['topLevelComment']['snippet']['authorDisplayName'],
+            'text': comment['snippet']['topLevelComment']['snippet']['textDisplay']
+        }
+        comment_profiles.append(comment_profile)
+
+    resp = jsonify(comment_profiles)
+    resp.status_code = 200
+    return resp
+
+
+@app.route('/api/v0/getVideoDetails/<videoId>')
+def get_video_details(videoId):
+    '''
+    Get video details for a particular video based on videoId
+    '''
+    url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id={}' \
+          '&key={}'.format(videoId, apiKey)
+    r = requests.get(url)
+    # convert to dict
+    print(r)
+    data = json.loads(r.text)
+    data_items = data['items']
+    # get neccessary data
+    for item in data_items:
+        data_item = {
+            'title': item['snippet']['title'],
+            'description': item['snippet']['description'],
+            'author': item['snippet']['channelTitle'],
+            'channelId': item['snippet']['channelId'],
+        }
+    resp = jsonify(data_item)
+    resp.status_code = 200
+    return resp
+
+
+@app.route('/api/v0/getOtherVideoByAuthor/<channelId>')
+def get_other_videos_by_author(channelId):
+    '''
+    Get 5 other videos by video author ordered by date created
+
+    '''
+    url = 'https://www.googleapis.com/youtube/v3/search?' \
+          'key={}&channelId={}&part=snippet&order=date&maxResults=5'.format(apiKey, channelId)
+    # Error handling with flask_rest_plus
+    try:
+        r = requests.get(url)
+        data = r.json()
+        videos = data['items']
+        NEXT_VD_ATH = data['nextPageToken']
+        refined_videos = []
+
+        for video in videos:
+            refined_video = {
+                'thumbnail_url': video['snippet']['thumbnails']['high']['url'],
+                'thumbnail_width': video['snippet']['thumbnails']['high']['width'],
+                'thumbnail_height': video['snippet']['thumbnails']['high']['height'],
+                'videoId': video['id']['videoId']
+            }
+            refined_videos.append(refined_video)
+
+        resp = jsonify(refined_videos)
+        resp.status_code = 200
+        return resp
+    except:
+        abort(500)
 
 
 if __name__ == "__main__":

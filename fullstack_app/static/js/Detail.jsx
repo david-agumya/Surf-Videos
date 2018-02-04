@@ -29,6 +29,9 @@ export default class Details extends React.Component {
             otherVids: [],
         }
     }
+    componentDidMount() {
+    //    get comments, get 
+    }
 
 
     render() {
@@ -45,8 +48,10 @@ export default class Details extends React.Component {
                 <div>
                     {/*Video Player*/}
                     <VideoPlayer videoId={this.state.videoId}/>
+                    <hr/>
                 </div>
                 <div>
+                    <h3> Details </h3>
                     {/*Details*/}
                 </div>
                 <div>
