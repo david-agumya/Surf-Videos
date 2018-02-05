@@ -1,0 +1,9 @@
+.commentText {
+    font-size: 1.25rem;
+}
+
+.commentAuthor{
+    font-size: 0.75rem;
+    text-align: right;
+    text-transform: capitalize;
+}

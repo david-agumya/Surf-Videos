@@ -6,3 +6,36 @@
     display: block;
     padding: 10px;
 }
+
+.comments {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 50%;
+    float: left;
+}
+
+.otherVideos {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 50%;
+    float: right;
+}
+
+.details {
+    width: 80%;
+    margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+    .comments {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .otherVideos {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+    }
+}

@@ -5,7 +5,6 @@ import styles from './ThumbNails.css'
 function ThumbNails(props) {
 
     let list_videos_details = props.videoDetails;
-
     let videos = list_videos_details.map(video => {
         return (
             <Thumbnail url={video.thumbnails.url}
