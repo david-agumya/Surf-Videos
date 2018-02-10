@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Home from "./Home.jsx";
-import Detail from './Detail.jsx'
+import Detail from './Detail.jsx';
 import {
     BrowserRouter,
     Switch,
@@ -14,10 +14,10 @@ class App extends Component {
     render() {
         return (
             <BrowserRouter>
-            <Switch>
-                <Route component={Home} exact path="/"/>
-                <Route component={Detail} exact path="/detail/:videoId" />
-            </Switch>
+                <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/detail/:videoId" component={Detail}  />
+                </Switch>
             </BrowserRouter>
         )
     }

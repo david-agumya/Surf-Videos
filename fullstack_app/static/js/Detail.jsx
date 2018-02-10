@@ -10,13 +10,18 @@ import {
     Button,
     ButtonToolbar,
 } from 'react-bootstrap'
+import {
+    withRouter,
+} from 'react-router-dom'
 import styles from './Detail.css'
 import VideoPlayer from './VIdeoPlayer.jsx'
 import CommentList from './CommentLists.jsx'
 import VideoContainer from './VideosContainer'
 import axios from 'axios'
 
-export default class Details extends React.Component {
+
+
+class Details extends React.Component {
 
     constructor(props){
         super(props);
@@ -30,6 +35,8 @@ export default class Details extends React.Component {
         this.getMoreComments = this.getMoreComments.bind(this);
         this.getNextOtherVideoThumbnails = this.getNextOtherVideoThumbnails.bind(this);
         this.getPrevOtherVideoThumbnails = this.getPrevOtherVideoThumbnails.bind(this);
+
+        // const VideoContainer = withRouter(VideoContainer);
 
         this.state = {
             videoId : video_Id,
@@ -164,7 +171,9 @@ export default class Details extends React.Component {
                 <div className={styles.otherVideos}>
                     <h3 className={styles.divHeader}> Recommended Videos </h3>
                     <hr/>
-                    <VideoContainer  videoList={this.state.otherVids}/>
+                    <VideoContainer  videoList={this.state.otherVids}
+                                     location={this.props.location}
+                                     history={this.props.history}/>
                     <ButtonToolbar>
                         <Button style={{float: 'left'}}
                                 onClick={this.getPrevOtherVideoThumbnails}>
@@ -181,3 +190,5 @@ export default class Details extends React.Component {
         )
     }
 }
+
+export default withRouter(Details);

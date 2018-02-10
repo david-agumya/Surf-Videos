@@ -7,13 +7,13 @@ import {
 import SearchForm from './SearchForm.jsx'
 import axios from 'axios'
 import ThumbNails from './ThumbNails.jsx'
-
+import {withRouter} from 'react-router-dom'
 import styles from './Home.css'
 
 /*
  Main component responsible for rendering the home page of surfing videos
  */
-export default class Home extends React.Component {
+class Home extends React.Component {
 
     constructor(props) {
         super(props);
@@ -159,3 +159,5 @@ export default class Home extends React.Component {
 
     }
 }
+
+export default withRouter(Home)
