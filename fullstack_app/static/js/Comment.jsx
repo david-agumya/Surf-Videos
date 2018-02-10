@@ -4,20 +4,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-    ListGroupItem
+    Panel,
 } from 'react-bootstrap'
 import styles from './Comment.css'
 
 function Comment(props) {
     return (
-        <ListGroupItem bsStyle="info">
-            <p className={styles.commentAuthor}>
-                Author : {props.commentAuthor}
-                </p>
-            <p className={styles.commentText}>
-                {props.commentText}
-                </p>
-        </ListGroupItem>
+        <Panel>
+            <Panel.Body>{props.commentText}</Panel.Body>
+            <Panel.Footer> Author : {props.commentAuthor}</Panel.Footer>
+        </Panel>
     )
 }
 

@@ -10,19 +10,29 @@
 .comments {
     display: inline-block;
     box-sizing: border-box;
-    width: 50%;
+    width: 48%;
     float: left;
+    margin-left:2%;
+}
+
+.divHeader {
+    text-align: center;
 }
 
 .otherVideos {
     display: inline-block;
     box-sizing: border-box;
-    width: 50%;
+    width: 48%;
     float: right;
 }
 
 .details {
     width: 80%;
+    margin: 0 auto;
+}
+
+.commentButton {
+    display: block;
     margin: 0 auto;
 }
 

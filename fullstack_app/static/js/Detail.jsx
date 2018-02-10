@@ -7,6 +7,8 @@ import React from 'react'
 import {
     PageHeader,
     Panel,
+    Button,
+    ButtonToolbar,
 } from 'react-bootstrap'
 import styles from './Detail.css'
 import VideoPlayer from './VIdeoPlayer.jsx'
@@ -25,6 +27,10 @@ export default class Details extends React.Component {
         this.getVideoDetails = this.getVideoDetails.bind(this);
         this.getInitialComments = this.getInitialComments.bind(this);
         this.getOtherVideoThumnails = this.getOtherVideoThumnails.bind(this);
+        this.getMoreComments = this.getMoreComments.bind(this);
+        this.getNextOtherVideoThumbnails = this.getNextOtherVideoThumbnails.bind(this);
+        this.getPrevOtherVideoThumbnails = this.getPrevOtherVideoThumbnails.bind(this);
+
         this.state = {
             videoId : video_Id,
             videoUrl : '',
@@ -72,6 +78,18 @@ export default class Details extends React.Component {
             })
     }
 
+    getMoreComments() {
+        axios.get(`/api/v0/getNextComments/${this.state.videoId}`)
+            .then(responseData => {
+                this.setState({
+                    comments : responseData.data
+                });
+                this.getVideoDetails();
+            }).catch((err) => {
+            console.log(err);
+        })
+    }
+
 
     getOtherVideoThumnails() {
         axios.get(`/api/v0/getOtherVideoByAuthor/${this.state.channelId}`)
@@ -83,6 +101,30 @@ export default class Details extends React.Component {
             console.log(err)
         })
     }
+
+    getNextOtherVideoThumbnails() {
+        axios.get(`/api/v0/getNextOtherVideoByAuthor/${this.state.channelId}`)
+            .then(responseData => {
+                this.setState({
+                    otherVids : responseData.data
+                })
+            }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+    getPrevOtherVideoThumbnails() {
+        axios.get(`/api/v0/getPrevOtherVideoByAuthor/${this.state.channelId}`)
+            .then(responseData => {
+                this.setState({
+                    otherVids : responseData.data
+                })
+            }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+
 
     render() {
         return (
@@ -112,15 +154,27 @@ export default class Details extends React.Component {
                     </Panel>
                 </div>
                 <div className={styles.comments}>
-                    <h3> Comments </h3>
+                    <h3 className={styles.divHeader}> Comments </h3>
                     <hr/>
                     {/*Comments*/}
                     <CommentList CommentList={this.state.comments}/>
+                    <Button className={styles.commentButton} onClick={this.getMoreComments}>
+                        Load More Comments.</Button>
                 </div>
                 <div className={styles.otherVideos}>
-                    <h3> Recommended Videos </h3>
+                    <h3 className={styles.divHeader}> Recommended Videos </h3>
                     <hr/>
                     <VideoContainer  videoList={this.state.otherVids}/>
+                    <ButtonToolbar>
+                        <Button style={{float: 'left'}}
+                                onClick={this.getPrevOtherVideoThumbnails}>
+                            Prev
+                        </Button>
+                        <Button style={{float: 'right'}}
+                                onClick={this.getNextOtherVideoThumbnails}>
+                            Next
+                        </Button>
+                    </ButtonToolbar>
 
                 </div>
             </div>

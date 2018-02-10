@@ -17,6 +17,7 @@ NEXT_PG_TKN = ''  # global variable tracking next videos token
 PREV_PG_TKN = ''  # global variable tracking prev videos token
 NEXT_CM_TKN = ''  # global variable tracking next comments token
 NEXT_VD_ATH = ''  # global variable tracking next videos by author token
+PREV_VD_ATH = ''  # global variable tracking prev videos by author token
 
 
 def add_token_to_end_point_helper(nextPgTkn):
@@ -240,6 +241,7 @@ def get_next_other_videos_by_author(channelId):
     Use the next video videos by author token to fetch videos specified by channelid
     """
     global NEXT_VD_ATH
+    global PREV_VD_ATH
     if NEXT_VD_ATH != '':
         url = "https://www.googleapis.com/youtube/v3/search?" \
               "key={}" \
@@ -254,14 +256,70 @@ def get_next_other_videos_by_author(channelId):
             r = requests.get(url)
             data = r.json()
             videos = data['items']
-            NEXT_VD_ATH = data['nextPageToken']
+            if 'nextPageToken' in data:
+                NEXT_VD_ATH = data['nextPageToken']
+            else:
+                NEXT_VD_ATH = ''
+
+            PREV_VD_ATH = data['prevPageToken']
             refined_videos = []
             for video in videos:
                 refined_video = {
-                    'thumbnail_url': video['snippet']['thumbnails']['high']['url'],
-                    'thumbnail_width': video['snippet']['thumbnails']['high']['width'],
-                    'thumbnail_height': video['snippet']['thumbnails']['high']['height'],
-                    'videoId': video['id']['videoId']
+                'thumbnail_url': video['snippet']['thumbnails']['high']['url'],
+                'thumbnail_width': video['snippet']['thumbnails']['high']['width'],
+                'thumbnail_height': video['snippet']['thumbnails']['high']['height'],
+                'videoId': video['id']['videoId'],
+                'title': video['snippet']['title'],
+                'description': video['snippet']['description']
+                }
+                refined_videos.append(refined_video)
+            resp = jsonify(refined_videos)
+            resp.status_code = 200
+            return resp
+        except:
+            abort(500)
+    else:
+        re_route = '/api/v0/getOtherVideoByAuthor/{}'.format(channelId)
+        return redirect(re_route, code=302)
+
+
+@app.route('/api/v0/getPrevOtherVideoByAuthor/<channelId>')
+def get_prev_other_videos_by_author(channelId):
+    """
+    Use the next video videos by author token to fetch videos specified by channelid
+    """
+    global NEXT_VD_ATH
+    global PREV_VD_ATH
+    if PREV_VD_ATH != '':
+        url = "https://www.googleapis.com/youtube/v3/search?" \
+              "key={}" \
+              "&channelId={}" \
+              "&part=snippet" \
+              "&order=date" \
+              "&maxResults=5" \
+              "&pageToken={}".format(apiKey, channelId, PREV_VD_ATH)
+        try:
+            r = requests.get(url)
+            data = r.json()
+            videos = data['items']
+            NEXT_VD_ATH = data['nextPageToken']
+            if 'prevPageToken' in data:
+                PREV_VD_ATH = data['prevPageToken']
+            else:
+                PREV_VD_ATH = ''
+
+            if 'nextPageToken' in data:
+                NEXT_VD_ATH = data['nextPageToken']
+
+            refined_videos = []
+            for video in videos:
+                refined_video = {
+                'thumbnail_url': video['snippet']['thumbnails']['high']['url'],
+                'thumbnail_width': video['snippet']['thumbnails']['high']['width'],
+                'thumbnail_height': video['snippet']['thumbnails']['high']['height'],
+                'videoId': video['id']['videoId'],
+                'title': video['snippet']['title'],
+                'description': video['snippet']['description']
                 }
                 refined_videos.append(refined_video)
             resp = jsonify(refined_videos)
