@@ -1,5 +1,6 @@
 /fullstack_app/static/node_modules/
 fullstack_app/server/server_venv/
+fullstack_app/.DS_Store
 /.DS_Store
 *.py[cod]     # Will match .pyc, .pyo and .pyd files.
 __pycache__/  # Exclude the whole folder
