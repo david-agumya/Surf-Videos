@@ -46,7 +46,9 @@ def add_searchTerm_to_end_point_helper(searchTerm='surfing'):
 def comments_helper(original_r_text):
     data = json.loads(original_r_text)
     global NEXT_CM_TKN  # to be used later to get more comments
-    NEXT_CM_TKN = data['nextPageToken']
+    if 'nextPageToken' in data:
+        NEXT_CM_TKN = data['nextPageToken']
+
     comments = data['items']
     comment_profiles = []
 
@@ -209,15 +211,20 @@ def get_other_videos_by_author(channelId):
     url = 'https://www.googleapis.com/youtube/v3/search?' \
           'key={}&channelId={}&part=snippet&order=date&maxResults=5'.format(apiKey, channelId)
     # Error handling with flask_rest_plus
-    try:
-        r = requests.get(url)
-        data = r.json()
-        videos = data['items']
-        global NEXT_VD_ATH
+    # try:
+    #
+    # except:
+    #     abort(500)
+    r = requests.get(url)
+    data = r.json()
+    videos = data['items']
+    global NEXT_VD_ATH
+    if 'nextPageToken' in data:
         NEXT_VD_ATH = data['nextPageToken']
-        refined_videos = []
+    refined_videos = []
 
-        for video in videos:
+    for video in videos:
+        if 'videoId' in video['id']:
             refined_video = {
                 'thumbnail_url': video['snippet']['thumbnails']['high']['url'],
                 'thumbnail_width': video['snippet']['thumbnails']['high']['width'],
@@ -228,11 +235,9 @@ def get_other_videos_by_author(channelId):
             }
             refined_videos.append(refined_video)
 
-        resp = jsonify(refined_videos)
-        resp.status_code = 200
-        return resp
-    except:
-        abort(500)
+    resp = jsonify(refined_videos)
+    resp.status_code = 200
+    return resp
 
 
 @app.route('/api/v0/getNextOtherVideoByAuthor/<channelId>')

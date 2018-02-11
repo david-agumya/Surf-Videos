@@ -3,7 +3,7 @@
  clicks on a thumbnail in the parent home page component
  */
 
-import React from 'react'
+import React, { Component}from 'react'
 import {
     PageHeader,
     Panel,
@@ -21,7 +21,7 @@ import axios from 'axios'
 
 
 
-class Details extends React.Component {
+class Details extends Component {
 
     constructor(props){
         super(props);
@@ -173,7 +173,7 @@ class Details extends React.Component {
                     <hr/>
                     <VideoContainer  videoList={this.state.otherVids}
                                      location={this.props.location}
-                                     history={this.props.history}/>
+                                     />
                     <ButtonToolbar>
                         <Button style={{float: 'left'}}
                                 onClick={this.getPrevOtherVideoThumbnails}>

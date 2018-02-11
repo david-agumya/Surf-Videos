@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
     Thumbnail,
@@ -16,13 +16,11 @@ function VideoThumbnail(props){
 
     return(
         <div>
-            <Link to={`/detail/${props.videoId}`}>
             <Thumbnail src={props.thumbnail_url}
                        alt={props.title}>
                 <h3>{props.title}</h3>
                 <p>{props.description}</p>
             </Thumbnail>
-            </Link>
         </div>
     )
 }

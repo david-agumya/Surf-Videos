@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {
     PageHeader,
     Button
@@ -13,7 +13,7 @@ import styles from './Home.css'
 /*
  Main component responsible for rendering the home page of surfing videos
  */
-class Home extends React.Component {
+class Home extends Component {
 
     constructor(props) {
         super(props);
