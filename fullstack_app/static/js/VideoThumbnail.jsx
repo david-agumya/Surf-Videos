@@ -2,25 +2,28 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
     Thumbnail,
+    Panel
 } from 'react-bootstrap'
-import {
-    Link,
-    withRouter
-} from 'react-router-dom'
-
+import styles from './VideoThumbnail.css'
 function VideoThumbnail(props){
-    function handleClick(e){
-        e.preventDefault();
-        props.history.push(`/detail/${props.videoId}`)
-    }
 
     return(
-        <div>
-            <Thumbnail src={props.thumbnail_url}
-                       alt={props.title}>
-                <h3>{props.title}</h3>
-                <p>{props.description}</p>
-            </Thumbnail>
+        <div className={styles.container}>
+            <Panel>
+                <Panel.Body>
+                    <div className={styles.player}>
+                    <iframe src={`https://www.youtube.com/embed/${props.videoId}`}
+                            controls="0"
+                            frameBorder="0"
+                            allowFullScreen
+                            title={props.title}> </iframe>
+                    </div>
+                </Panel.Body>
+                <Panel.Footer>
+                    <h3>{props.title}</h3>
+                    <p>{props.description}</p>
+                </Panel.Footer>
+            </Panel>
         </div>
     )
 }
@@ -32,4 +35,4 @@ VideoThumbnail.propTypes = {
     videoId: PropTypes.string.isRequired,
 };
 
-export default withRouter(VideoThumbnail);
+export default VideoThumbnail;

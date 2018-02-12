@@ -12,6 +12,7 @@ import {
 } from 'react-bootstrap'
 import {
     withRouter,
+    Redirect
 } from 'react-router-dom'
 import styles from './Detail.css'
 import VideoPlayer from './VIdeoPlayer.jsx'
@@ -35,6 +36,7 @@ class Details extends Component {
         this.getMoreComments = this.getMoreComments.bind(this);
         this.getNextOtherVideoThumbnails = this.getNextOtherVideoThumbnails.bind(this);
         this.getPrevOtherVideoThumbnails = this.getPrevOtherVideoThumbnails.bind(this);
+
 
         // const VideoContainer = withRouter(VideoContainer);
 
@@ -133,6 +135,8 @@ class Details extends Component {
 
 
 
+
+
     render() {
         return (
             <div>
@@ -172,7 +176,6 @@ class Details extends Component {
                     <h3 className={styles.divHeader}> Recommended Videos </h3>
                     <hr/>
                     <VideoContainer  videoList={this.state.otherVids}
-                                     location={this.props.location}
                                      />
                     <ButtonToolbar>
                         <Button style={{float: 'left'}}

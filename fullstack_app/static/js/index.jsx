@@ -1,7 +1,19 @@
 // index.jsx
 import React from "react";
 import ReactDOM from "react-dom";
-import App from './App.jsx'
+import Detail from './Detail.jsx';
+import Home from './Home.jsx'
+import {
+    BrowserRouter,
+    Switch,
+    Route
+} from 'react-router-dom'
 
-ReactDOM.render(<App/>, document.getElementById("content"));
+ReactDOM.render(
+    <BrowserRouter>
+        <Switch>
+            <Route exact path="/" component={Home}/>
+            <Route exact path="/detail/:videoId" component={Detail}/>
+        </Switch>
+    </BrowserRouter>, document.getElementById("content"));
 
