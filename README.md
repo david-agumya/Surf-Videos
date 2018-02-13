@@ -23,3 +23,22 @@ ___
 + By de coupling my logic from my view i hope to get a faster performance from my view which will benefit the user. 
 + Possible use of caching of pages and results from youtube in the service implementation resulting in less calls to the YOUTUBE API.  
 
+### Technology
+___
++  React - Front End Framework - Rendering the Application View
++  Flask - Server side Micro framework - Application logic - 
+>> Making api Calls to youtube to get data and pass it to React  
+
+
+### Api Layer 
++ /api/v0/getVideos - Get the initial surf videos to render to the home page  
++ /api/v0/getMoreVideos - After initial videos are rendered to homepage this route is called to load the next set of videos  
++ /api/v0/getPreviousVideos - After the next videos are rendered, if the user wants to go back to the previous set of videos then this route is called  
++ /api/v0/search/<searchTerm> - Route used to search for youtube videos. Search terms is added to "surf" before the request is initiated to youtube api.  
++ /api/v0/getVideoComments/<videoId> - Get video comments for the video specified by video Id  
++ /api/v0/getVideoDetails/<videoId> - Get video details such as title and description for the video specified by the videoId  
++ api/v0/getOtherVideosByAuthor/<channelId> - Get other videos from the same channelId / same channel
++ api/v0/getNextOtherVideosByAuthor/<channelId> - Get next set of videos to be loaded from the same channel id.  
++ api/v0/getPrevOtherVideoByAuthor/<channelId> - Get previous set of videos to the loaded from the same channel id.
++ api/v0/getNextComments/<videoId> - Get next set of comments for the video specified by videoId
+
