@@ -42,3 +42,10 @@ ___
 + api/v0/getPrevOtherVideoByAuthor/<channelId> - Get previous set of videos to the loaded from the same channel id.
 + api/v0/getNextComments/<videoId> - Get next set of comments for the video specified by videoId
 
+### How to run   
+1) clone repository  
+2) go to `cd fullstack app`  
+3) go to `cd static` and run `npm install` to install node dependencies  
+4) go to `cd server` and run `pip install -r ./requirements.txt` to install python dependencies  
+5) Activate virtualenv by running `source server_venv/bin/activate`  
+6) Now that we are in the virtual env run `python3 server.py`   
