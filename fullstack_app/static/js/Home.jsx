@@ -39,7 +39,7 @@ class Home extends Component {
                 })
             }).catch(err => {
             console.log("/getVideos : ", err);
-            alert('OOps : Unable to get videos from youtube')
+            alert('Ops : Unable to get videos from youtube, Server internet connection down')
         })
     }
 

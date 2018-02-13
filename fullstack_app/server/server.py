@@ -3,6 +3,7 @@ from flask import Flask, render_template, redirect, Response
 from flask_cors import CORS
 from flask import jsonify
 from flask_restplus import abort
+from werkzeug.exceptions import HTTPException, NotFound
 import requests
 from flask import Response
 from flask import request
@@ -64,12 +65,14 @@ def comments_helper(original_r_text):
     resp.status_code = 200
     return resp
 
+
 def get_videos(source):
     videos_sum = []
     # Make request
     r = requests.get(source)
     # Raise error if request failed
-    # TODO : Handle error in api call
+    if r.status_code != 200:
+        return abort(r.status_code)
     data = json.loads(r.text)
     global NEXT_PG_TKN
     global PREV_PG_TKN
@@ -115,10 +118,17 @@ def getVideos():
     '''
     Get the intial videos that will be rendered in the react home page component
     '''
-    videos = get_videos(add_searchTerm_to_end_point_helper(searchTerm='surfing'))
-    resp = jsonify(videos)
-    resp.status_code = 200
-    return resp
+    try:
+        videos = get_videos(add_searchTerm_to_end_point_helper(searchTerm='surfing'))
+        resp = jsonify(videos)
+        resp.status_code = 200
+        return resp
+    except Exception as e:
+        fail_resp = Response(status=500, mimetype='application/json')
+        return fail_resp
+
+
+
 
 
 @app.route("/api/v0/getMoreVideos")
@@ -129,10 +139,14 @@ def getMoreVideos():
     '''
     global NEXT_PG_TKN
     next_page_endPoint = add_token_to_end_point_helper(NEXT_PG_TKN)
-    videos = get_videos(next_page_endPoint)
-    resp = jsonify(videos)
-    resp.status_code = 200
-    return resp
+    try:
+        videos = get_videos(next_page_endPoint)
+        resp = jsonify(videos)
+        resp.status_code = 200
+        return resp
+    except:
+        fail_resp = Response(status=500, mimetype='application/json')
+        return fail_resp
 
 
 @app.route("/api/v0/getPreviousVideos")
@@ -144,10 +158,14 @@ def getPreviousVideos():
     global PREV_PG_TKN
     print(PREV_PG_TKN)
     prev_page_endPoint = add_token_to_end_point_helper(PREV_PG_TKN)
-    videos = get_videos(prev_page_endPoint)
-    resp = jsonify(videos)
-    resp.status_code = 200
-    return resp
+    try:
+        videos = get_videos(prev_page_endPoint)
+        resp = jsonify(videos)
+        resp.status_code = 200
+        return resp
+    except:
+        fail_resp = Response(status=500, mimetype='application/json')
+        return fail_resp
 
 
 @app.route("/api/v0/search/<searchTerm>")
@@ -160,10 +178,14 @@ def search(searchTerm):
     global PREV_PG_TKN
     NEXT_PG_TKN = ''
     PREV_PG_TKN = ''
-    videos = get_videos(add_searchTerm_to_end_point_helper(new_term))
-    resp = jsonify(videos)
-    resp.status_code = 200
-    return resp
+    try:
+        videos = get_videos(add_searchTerm_to_end_point_helper(new_term))
+        resp = jsonify(videos)
+        resp.status_code = 200
+        return resp
+    except:
+        fail_resp = Response(status=500, mimetype='application/json')
+        return fail_resp
 
 
 @app.route('/api/v0/getVideoComments/<videoId>')
@@ -173,9 +195,13 @@ def get_video_comments(videoId):
     '''
     url = "https://www.googleapis.com/youtube/v3/commentThreads?key={}" \
           "&textFormat=plainText&part=snippet&videoId={}&maxResults=15".format(apiKey, videoId)
-    r = requests.get(url)
-    resp = comments_helper(r.text)
-    return resp
+    try:
+        r = requests.get(url)
+        resp = comments_helper(r.text)
+        return resp
+    except:
+        fail_resp = Response(status=500, mimetype='application/json')
+        return fail_resp
 
 
 @app.route('/api/v0/getVideoDetails/<videoId>')
@@ -185,21 +211,25 @@ def get_video_details(videoId):
     """
     url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id={}' \
           '&key={}'.format(videoId, apiKey)
-    r = requests.get(url)
-    # convert to dict
-    data = json.loads(r.text)
-    data_items = data['items']
-    # get necessary data
-    for item in data_items:
-        data_item = {
-            'title': item['snippet']['title'],
-            'description': item['snippet']['description'],
-            'author': item['snippet']['channelTitle'],
-            'channelId': item['snippet']['channelId'],
-        }
-    resp = jsonify(data_item)
-    resp.status_code = 200
-    return resp
+    try:
+        r = requests.get(url)
+        # convert to dict
+        data = json.loads(r.text)
+        data_items = data['items']
+        # get necessary data
+        for item in data_items:
+            data_item = {
+                'title': item['snippet']['title'],
+                'description': item['snippet']['description'],
+                'author': item['snippet']['channelTitle'],
+                'channelId': item['snippet']['channelId'],
+            }
+        resp = jsonify(data_item)
+        resp.status_code = 200
+        return resp
+    except:
+        fail_resp = Response(status=500, mimetype='application/json')
+        return fail_resp
 
 
 @app.route('/api/v0/getOtherVideoByAuthor/<channelId>')
