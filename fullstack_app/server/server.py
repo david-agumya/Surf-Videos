@@ -388,5 +388,9 @@ def get_next_comments(videoId):
         return redirect(re_route, code=302)
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('NotFound.html'), 404
+
 if __name__ == "__main__":
     app.run(debug=True)
