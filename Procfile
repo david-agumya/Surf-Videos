@@ -1,1 +1,1 @@
-web:  gunicorn --pythonpath fullstack server. app.app
+web:  gunicorn --pythonpath fullstack server app.app
