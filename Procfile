@@ -1,1 +1,1 @@
-web: gunicorn ./fullstack_app/server/server:app
+web:  gunicorn --pythonpath server.wsgi:app

@@ -1,5 +1,5 @@
 import unittest
-from server import app
+from app import app
 
 
 class LoadingTestCase(unittest.TestCase):
