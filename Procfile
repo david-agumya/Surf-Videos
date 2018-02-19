@@ -1,1 +1,1 @@
-web:  sh ./fullstack_app run.sh
+web:  sh ./fullstack_app/run.sh
