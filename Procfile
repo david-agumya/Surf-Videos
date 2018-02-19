@@ -1,1 +1,1 @@
-web:  gunicorn --pythonpath fullstack server app.app
+web:  sh ./fullstack_app run.sh
