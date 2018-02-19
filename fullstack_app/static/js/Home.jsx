@@ -125,10 +125,10 @@ class Home extends Component {
                     <hr/>
                 </div>
 
-                <div className="video-thumbnails">
+                <div className={styles.videoThumbnails}>
                     <ThumbNails videoDetails={this.state.vidInfo}/>
                 </div>
-                <div>
+                <div className={styles.buttonDiv}>
                     <div className={styles.prevButtonDiv}>
                         {this.state.prePageCounter > 1 &&
                         <Button

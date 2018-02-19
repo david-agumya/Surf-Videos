@@ -7,11 +7,13 @@ function ThumbNails(props) {
     let list_videos_details = props.videoDetails;
     let videos = list_videos_details.map(video => {
         return (
-            <Thumbnail url={video.thumbnails.url}
-                       description={video.description}
-                       title={video.title}
-                       videoId={video.videoId}
-                       key={video.videoId}
+            <Thumbnail
+                className={styles.thumbnail}
+                url={video.thumbnails.url}
+                description={video.description}
+                title={video.title}
+                videoId={video.videoId}
+                key={video.videoId}
             />
         )
     });

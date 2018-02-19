@@ -1,3 +1,9 @@
 .thumbnail_container {
-    width: 95%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.thumbnail {
+    width: 40%;
+    display: inline-block;
 }

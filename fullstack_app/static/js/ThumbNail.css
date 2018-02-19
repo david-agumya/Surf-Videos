@@ -1,10 +1,9 @@
 .thumbnailStyle {
     display: inline-block;
-    margin: 6% 4%;
+    margin: 4% 4%;
     border: 1px solid black;
     width: 40%;
     box-sizing: border-box;
-    float: left;
 }
 
 .imgStyle {
