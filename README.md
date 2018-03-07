@@ -1,3 +1,12 @@
+## Objective 
+___
+Create a web application that use the youtube API to show surf videos with the following requirements
+- infinite pagination 
+- Home page with surf videos 
+- Search functionality on Home Page
+- Redirect from Home Page to Video Detail page with comments and other videos by video creator
+
+
 ## First Goal 
 ___
 Create a MVP, minimum viable product from the intial README, for this i elect to build it solely in React
